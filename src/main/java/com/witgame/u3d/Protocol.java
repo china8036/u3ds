@@ -1,15 +1,10 @@
 package com.witgame.u3d;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-//import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Protocol {
@@ -29,10 +24,6 @@ public class Protocol {
 	 */
 	private final int LEN_BYTES_LENGTH = 4;
 
-	/**
-	 * 读取的字节
-	 */
-	private byte[] readByte = new byte[BUFFER_LEN];
 
 	/**
 	 * 标识newMsg还是oldMsg
@@ -189,6 +180,8 @@ public class Protocol {
 		return arrayMerge(intToByteArray(msg.length()), msg.getBytes());
 	}
 
+	
+	
 	public static byte[] arrayMerge(byte[] a, byte[] b) {
 		byte[] tmpMsg = new byte[a.length + b.length];
 		System.arraycopy(a, 0, tmpMsg, 0, a.length);
