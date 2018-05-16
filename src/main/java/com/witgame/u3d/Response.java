@@ -1,5 +1,6 @@
 package com.witgame.u3d;
 
+import org.json.JSONObject;
 
 public class Response {
 
@@ -11,6 +12,34 @@ public class Response {
 	}
 	
 	
+	public void responseErr(int code, String msg) {
+		this.sendJson(code, msg);
+	}
+	
+	
+	public void responseOk(JSONObject jo) {
+		this.sendJson(ResponseCode.EVERY_OK,  "",  jo);
+	}
+	
+	
+	/**
+	 * 
+	 * @param code
+	 * @param msg
+	 */
+	public void sendJson(int code, String msg) {
+		 this.sendJson(code, msg, new JSONObject());
+	}
+	
+	/**
+	 * 
+	 * @param code
+	 * @param msg
+	 * @param jo
+	 */
+	public void sendJson(int code, String msg, JSONObject jo) {
+		this.send((new JSONObject()).put("code", code).put("msg", msg).put("data", jo).toString());
+	}
 	
 	
 	public void send(String msg) {

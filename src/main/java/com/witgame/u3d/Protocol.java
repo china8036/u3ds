@@ -9,10 +9,6 @@ import java.util.List;
 
 public class Protocol {
 
-	/**
-	 * buffer 长度
-	 */
-	private final int BUFFER_LEN = 1024;
 
 	/**
 	 * 消息提最长长度
@@ -23,7 +19,6 @@ public class Protocol {
 	 * 标识msg长度的信息的字节长度
 	 */
 	private final int LEN_BYTES_LENGTH = 4;
-
 
 	/**
 	 * 标识newMsg还是oldMsg
@@ -49,7 +44,6 @@ public class Protocol {
 	 * 待处理的
 	 */
 	private byte[] waitMsg;
-
 
 	private BlockingQueue<String> blockQueue = new LinkedBlockingQueue<String>(10);
 
@@ -134,11 +128,8 @@ public class Protocol {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// queue.add(msg);
 	}
 
-	
-	
 	public String getMsg() {
 		String msg = "";
 		try {
@@ -180,8 +171,6 @@ public class Protocol {
 		return arrayMerge(intToByteArray(msg.length()), msg.getBytes());
 	}
 
-	
-	
 	public static byte[] arrayMerge(byte[] a, byte[] b) {
 		byte[] tmpMsg = new byte[a.length + b.length];
 		System.arraycopy(a, 0, tmpMsg, 0, a.length);

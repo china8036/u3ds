@@ -20,9 +20,13 @@ public class SocketThread implements Runnable {
 
 	SocketThread(SocketChannel sc) {
 		this.sc = sc;
+		//新起一个线程负责处理请求
 		new Thread(new TaskThread(this)).start();
 	}
 
+	/**
+	 * 此线程负责拼装socket为一个完整的请求
+	 */
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
@@ -40,10 +44,21 @@ public class SocketThread implements Runnable {
 		}
 	}
 
+	
+	/**
+	 * 获取消息 会阻塞
+	 * @return
+	 */
 	public String getMsg() {
 		return ptl.getMsg();
 	}
 
+	
+	/**
+	 * 发送消息
+	 * @param msg
+	 * @throws Exception
+	 */
 	public void sendMsg(String msg) throws Exception {
 		writeBuffer.clear();
 		writeBuffer.put(Protocol.encodeMsg(msg));
