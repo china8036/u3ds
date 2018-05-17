@@ -61,7 +61,8 @@ public class Protocol {
 		int len = msgByte.length;
 		if (this.isNewMsg) {// 新的消息
 			System.out.println("Memory:");
-			System.out.println(Runtime.getRuntime().freeMemory());
+			System.out.println(Runtime.getRuntime().totalMemory());
+			System.out.println(Runtime.getRuntime().totalMemory()/1048576); //M
 
 			// 处理未满4个字节的数据
 			if (this.waitMsg != null) {
