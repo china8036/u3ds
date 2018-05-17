@@ -23,18 +23,12 @@ public class Route {
 	public void run(Request request) throws ResponseException {
 		this.request = request;
 		String controller;
-		String action;
 		try {
 			 controller = (String) this.request.get("ctr");
 		}catch(JSONException je) {
 			throw new ResponseException(je.getMessage(),  ResponseCode.ILLEGAL_REQUEST);
 		}
-		try {
-			 action = (String)this.request.get("act");
-		}catch(JSONException je) {
-			action = "index";
-		}
-		action += "Action";
+
 		try {
 			Controller ctr = (Controller)Class.forName(CONTROLLER_PACKAGE + controller).newInstance();
 			ctr.run(this.request, this.response);
@@ -42,9 +36,9 @@ public class Route {
 		} catch (ClassNotFoundException e) {
 			throw new ResponseException(controller + " Controller Not Found", ResponseCode.ILLEGAL_REQUEST); 
 		}catch(InstantiationException e) {
-			throw new ResponseException(action + " Controller init Failed", ResponseCode.ILLEGAL_REQUEST); 
+			throw new ResponseException(controller + " Controller Instant Failed", ResponseCode.ILLEGAL_REQUEST); 
 		}catch(IllegalAccessException e) {
-			throw new ResponseException(action + " Controller init Failed", ResponseCode.ILLEGAL_REQUEST); 
+			throw new ResponseException(controller + " Controller Access Failed", ResponseCode.ILLEGAL_REQUEST); 
 		}
 		
 	}
