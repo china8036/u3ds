@@ -22,7 +22,11 @@ public class TaskThread implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				this.route.run(new Request(st.getMsg()));
+				String msg = st.getMsg();
+				if(msg.equals(Protocol.EXIT_CODE)) {//收到退出信息
+					return;
+				}
+				this.route.run(new Request(msg, this.st));
 			}catch(ResponseException e) {
 				this.response.responseErr(e.getCode(),  e.getMessage());
 				

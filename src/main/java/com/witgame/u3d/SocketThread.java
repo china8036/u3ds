@@ -1,5 +1,7 @@
 package com.witgame.u3d;
 
+import java.io.IOException;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
@@ -40,7 +42,9 @@ public class SocketThread implements Runnable {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			ptl.pushMsg(Protocol.EXIT_CODE);//发送退出信号
 			e.printStackTrace();
+			
 		}
 	}
 
@@ -66,6 +70,16 @@ public class SocketThread implements Runnable {
 		while (writeBuffer.hasRemaining()) {
 			sc.write(writeBuffer);
 		}
+	}
+	
+	
+	/**
+	 * 获取远端地址
+	 * @return
+	 * @throws IOException 
+	 */
+	public SocketAddress getAddress() throws IOException {
+		return this.sc.getRemoteAddress();
 	}
 
 }

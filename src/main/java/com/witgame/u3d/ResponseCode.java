@@ -11,4 +11,6 @@ public class ResponseCode {
 	 * 非法请求
 	 */
 	public final static int ILLEGAL_REQUEST = -1;
+	
+
 }

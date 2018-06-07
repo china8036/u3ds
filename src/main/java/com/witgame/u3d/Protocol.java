@@ -19,6 +19,9 @@ public class Protocol {
 	 * 标识msg长度的信息的字节长度
 	 */
 	private final int LEN_BYTES_LENGTH = 4;
+	
+	
+	public final static String EXIT_CODE = "exit";
 
 	/**
 	 * 标识newMsg还是oldMsg
@@ -60,9 +63,9 @@ public class Protocol {
 	public void dealPackage(byte[] msgByte) {
 		int len = msgByte.length;
 		if (this.isNewMsg) {// 新的消息
-			System.out.println("Memory:");
-			System.out.println(Runtime.getRuntime().totalMemory());
-			System.out.println(Runtime.getRuntime().totalMemory()/1048576); //M
+//			System.out.println("Memory:");
+//			System.out.println(Runtime.getRuntime().totalMemory());
+//			System.out.println(Runtime.getRuntime().totalMemory()/1048576); //M
 
 			// 处理未满4个字节的数据
 			if (this.waitMsg != null) {
@@ -122,7 +125,7 @@ public class Protocol {
 	 * 
 	 * @param msg
 	 */
-	protected void pushMsg(String msg) {
+	public void pushMsg(String msg) {
 		try {
 			this.blockQueue.put(msg);
 		} catch (InterruptedException e) {
