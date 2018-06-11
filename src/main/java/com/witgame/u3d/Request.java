@@ -11,6 +11,10 @@ public class Request {
 	JSONObject request;
 	
 	public SocketThread st;
+	
+	private String controller;
+	
+	private String   sid;
 
 	Request(String requestStr,  SocketThread st) throws ResponseException  {
 		this.st = st;
@@ -18,6 +22,12 @@ public class Request {
 			this.request = new JSONObject(requestStr);
 		}catch(JSONException je) {
 			throw new ResponseException(je.getMessage() + " body:" + requestStr, ResponseCode.ILLEGAL_REQUEST);
+		}
+		try {
+			 controller = (String) this.request.get("ctr");
+			 sid = (String) this.request.get("sid");
+		}catch(JSONException je) {
+			throw new ResponseException(je.getMessage(),  ResponseCode.ILLEGAL_REQUEST);
 		}
 	}
 	
@@ -32,6 +42,16 @@ public class Request {
 		return this.request.get(key);
 	}
 	
+	
+	
+	public String getSid() {
+		return this.sid;
+	}
+	
+	
+	public String getController() {
+		return this.controller;
+	}
 	
 	/**
 	 *  获取远端地址

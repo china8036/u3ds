@@ -2,7 +2,8 @@ package com.witgame.u3d;
 
 
 
-import org.json.JSONException;
+
+import com.witgame.u3d.session.MemSession;
 
 public class Route {
 
@@ -22,16 +23,11 @@ public class Route {
 	 */
 	public void run(Request request) throws ResponseException {
 		this.request = request;
-		String controller;
-		try {
-			 controller = (String) this.request.get("ctr");
-		}catch(JSONException je) {
-			throw new ResponseException(je.getMessage(),  ResponseCode.ILLEGAL_REQUEST);
-		}
-
+		String controller= request.getController();
+        Session s = new MemSession();
 		try {
 			Controller ctr = (Controller)Class.forName(CONTROLLER_PACKAGE + controller).newInstance();
-			ctr.run(this.request, this.response);
+			ctr.run(this.request, this.response, s);
 
 		} catch (ClassNotFoundException e) {
 			throw new ResponseException(controller + " Controller Not Found", ResponseCode.ILLEGAL_REQUEST); 
