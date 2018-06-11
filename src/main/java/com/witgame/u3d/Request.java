@@ -17,7 +17,7 @@ public class Request {
 		try {
 			this.request = new JSONObject(requestStr);
 		}catch(JSONException je) {
-			throw new ResponseException(je.getMessage(), ResponseCode.ILLEGAL_REQUEST);
+			throw new ResponseException(je.getMessage() + " body:" + requestStr, ResponseCode.ILLEGAL_REQUEST);
 		}
 	}
 	
