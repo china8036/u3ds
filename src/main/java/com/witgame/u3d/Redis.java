@@ -11,7 +11,7 @@ public class Redis {
 	 * @return
 	 */
 	public static Jedis getInstance() {
-		if (jedis == null) {
+		if (! (jedis  instanceof  Jedis)) {
 			jedis = new Jedis("127.0.0.1", 6379);
 		}
 		return jedis;

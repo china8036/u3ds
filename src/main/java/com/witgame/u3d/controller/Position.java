@@ -2,8 +2,6 @@ package com.witgame.u3d.controller;
 
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,29 +20,23 @@ public class Position extends Controller {
 		
 		try {
 			String sid = request.getSid();
-			Redis.getInstance().sadd("clients", sid);
+			if(!Redis.getInstance().sismember("clients", sid)) {//添加到clients
+				Set<String> clients = Redis.getInstance().smembers("clients");
+				clients.add(sid);
+				String[] clientsArray = new String[clients.size()];
+				clients.toArray(clientsArray);
+				Redis.getInstance().sadd("clients", clientsArray);
+			}
+		   //更新位置信息
 			JSONObject position = new JSONObject();
 			position.put("x", request.get("x"));
 			position.put("y", request.get("y"));
 			position.put("z", request.get("z"));
+			System.out.println("recv position:"  + position.toString());
 			Map<String, String> postionMap = new HashMap<String, String>();
 			postionMap.put("position", position.toString());
 			Redis.getInstance().hmset(sid, postionMap);
-			Set<String> clients = Redis.getInstance().smembers("clients");
-			 for( Iterator<String>   it = clients.iterator();  it.hasNext(); )
-		        {           
-				   String tsid = it.next();
-		            if(sid.equals(tsid)) {
-		            	continue;
-		            }    
-		            if(Redis.getInstance().hexists(tsid, "position")){
-		            	Redis.getInstance().srem("clients", tsid);
-		            	continue;
-		            }
-		           String tposition = Redis.getInstance().hmget(tsid, "position").get(0);
-		           response.responseOk(new JSONObject(tposition));
-		    } 
-			
+			System.out.println("update position:" + Redis.getInstance().hmget(sid, "position"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
