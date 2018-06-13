@@ -31,7 +31,7 @@ public class Clients extends Controller  {
 	            	continue;
 	            }
 	           String tposition = Redis.getInstance().hmget(tsid, "position").get(0);
-	           response.responseOk(new JSONObject(tposition).put("id", tsid));
+	           response.responseOk(new JSONObject(tposition).put("id", tsid), request);
 	    } 
 	}
 

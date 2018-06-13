@@ -11,34 +11,50 @@ public class Response {
 	     	this.st = st;
 	}
 	
-	
-	public void responseErr(int code, String msg) {
-		this.sendJson(code, msg);
-	}
-	
-	
-	public void responseOk(JSONObject jo) {
-		this.sendJson(ResponseCode.EVERY_OK,  "",  jo);
-	}
-	
-	
 	/**
-	 * 
+	 * 回复错误信息
 	 * @param code
 	 * @param msg
+	 * @param request
 	 */
-	public void sendJson(int code, String msg) {
-		 this.sendJson(code, msg, new JSONObject());
+	public void responseErr(int code, String msg, Request request) {
+		this.sendJson(code, msg, request);
 	}
 	
 	/**
-	 * 
+	 * 回复正常的json数据
+	 * @param jo
+	 * @param request
+	 */
+	public void responseOk(JSONObject jo, Request request) {
+		this.sendJson(ResponseCode.EVERY_OK,  "",  jo, request);
+	}
+	
+	
+	/**
+	 * 回复 code msg
+	 * @param code
+	 * @param msg
+	 * @param request
+	 */
+	public void sendJson(int code, String msg, Request request) {
+		 this.sendJson(code, msg, new JSONObject(),   request);
+	}
+	
+	/**
+	 * 回复标准的json数据
 	 * @param code
 	 * @param msg
 	 * @param jo
+	 * @param request
 	 */
-	public void sendJson(int code, String msg, JSONObject jo) {
-		this.send((new JSONObject()).put("code", code).put("msg", msg).put("data", jo).toString());
+	public void sendJson(int code, String msg, JSONObject jo,  Request request) {
+		JSONObject jMsg = new JSONObject().put("code", code).put("msg", msg).put("data", jo);
+		if(request == null) {
+			this.send(jMsg.toString());
+		}else {
+			this.send(jMsg.put(Request.CTR_KEY, request.getController()).toString());
+		}
 	}
 	
 	

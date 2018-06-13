@@ -8,6 +8,13 @@ import org.json.JSONObject;
 
 public class Request {
 	
+	/**
+	 * 控制器键名
+	 */
+	public final static String CTR_KEY = "ctr";
+	
+	public final static String SID_KEY = "sid";
+	
 	JSONObject request;
 	
 	public SocketThread st;
@@ -24,8 +31,8 @@ public class Request {
 			throw new ResponseException(je.getMessage() + " body:" + requestStr, ResponseCode.ILLEGAL_REQUEST);
 		}
 		try {
-			 controller = (String) this.request.get("ctr");
-			 sid = (String) this.request.get("sid");
+			 controller = (String) this.request.get(CTR_KEY);
+			 sid = (String) this.request.get(SID_KEY);
 		}catch(JSONException je) {
 			throw new ResponseException(je.getMessage(),  ResponseCode.ILLEGAL_REQUEST);
 		}

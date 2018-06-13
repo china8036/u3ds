@@ -29,7 +29,7 @@ public class TaskThread implements Runnable {
 				}
 				this.route.run(new Request(msg, this.st));
 			}catch(ResponseException e) {
-				this.response.responseErr(e.getCode(),  e.getMessage());
+				this.response.responseErr(e.getCode(),  e.getMessage(), null);
 				
 			}catch(Exception e) {
 				e.printStackTrace();

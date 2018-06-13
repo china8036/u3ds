@@ -14,7 +14,7 @@ public class HearBeat extends Controller {
 
 	@Override
 	public void run(Request request, Response response, Session session) {
-		response.responseOk(new JSONObject().put("result", "Pong"));
+		response.responseOk(new JSONObject().put("result", "Pong"),  request);
 	}
 
 }
