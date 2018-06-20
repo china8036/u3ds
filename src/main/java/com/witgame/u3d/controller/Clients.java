@@ -17,22 +17,21 @@ public class Clients extends Controller  {
 	public void run(Request request, Response response, Session session) {
 //		// TODO Auto-generated method stub
 		String sid = request.getSid();
-		Set<String> clients = Redis.getInstance().smembers("clients");
-		System.out.println(clients.toString());
-		 for( Iterator<String>   it = clients.iterator();  it.hasNext(); )
-	        {           
-			   String tsid = it.next();
-			   System.out.println(tsid);
-	            if(sid.equals(tsid)) {
-	            	continue;
-	            }    
-	            if(!Redis.getInstance().hexists(tsid, "position")){
-	            	Redis.getInstance().srem("clients", tsid);
-	            	continue;
-	            }
-	           String tposition = Redis.getInstance().hmget(tsid, "position").get(0);
-	           response.responseOk(new JSONObject(tposition).put("id", tsid), request);
-	    } 
+		String clients = Redis.getInstance().get(Position.CLIENT_EKY);
+		if(clients == null) {
+			return ;
+		}
+		System.out.println(clients);
+		JSONObject clientsObject = new JSONObject(clients);
+		Iterator<String> iterator = clientsObject.keys();  
+		 while(iterator.hasNext()){  
+		            String tsid =iterator.next();  
+		            if(tsid.equals(sid)) {
+		            	continue;
+		            }
+		            JSONObject position = clientsObject.getJSONObject(tsid);
+		            response.responseOk(position.put("id", tsid), request);
+		 }
 	}
 
 }
