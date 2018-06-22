@@ -11,7 +11,7 @@ import com.witgame.u3d.Request;
 import com.witgame.u3d.Response;
 import com.witgame.u3d.Session;
 
-public class Clients extends Controller  {
+public class ClientOperate extends Controller  {
 
 	@Override
 	public void run(Request request, Response response, Session session) {
@@ -22,15 +22,19 @@ public class Clients extends Controller  {
 			return ;
 		}
 		System.out.println(clients);
-		JSONObject clientsObject = new JSONObject(clients);
-		Iterator<String> iterator = clientsObject.keys();  
+		JSONObject operatesObject = new JSONObject(clients);
+		Iterator<String> iterator = operatesObject.keys();  
 		 while(iterator.hasNext()){  
 		            String tsid =iterator.next();  
 		            if(tsid.equals(sid)) {
 		            	continue;
 		            }
-		            JSONObject position = clientsObject.getJSONObject(tsid);
-		            response.responseOk(position.put("id", tsid), request);
+		            String strOperate =  Redis.getInstance().rpop(Operate.OPERATE_PRE_KEY + tsid);
+		            if(strOperate == null) {
+		            	continue;
+		            }
+		            System.out.println("strOperate:" + strOperate);
+		            response.responseOk(new JSONObject(strOperate).put("operateId", tsid), request);
 		 }
 	}
 

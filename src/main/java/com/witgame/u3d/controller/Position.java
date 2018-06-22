@@ -27,7 +27,7 @@ public class Position extends Controller {
 			System.out.println("recv position:"  + position.toString());
 			String clients = Redis.getInstance().get(CLIENT_EKY);
 			JSONObject  clientsObject;
-			if(clients == null) {
+			if(clients == null || !clients.startsWith("{")) {
 				clientsObject= new JSONObject();
 			}else {
 				System.out.println("clients:" + clients);
