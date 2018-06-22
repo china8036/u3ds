@@ -24,16 +24,18 @@ public class ClientOperate extends Controller  {
 		System.out.println(clients);
 		JSONObject operatesObject = new JSONObject(clients);
 		Iterator<String> iterator = operatesObject.keys();  
+		String tsid,strOperate;
 		 while(iterator.hasNext()){  
-		            String tsid =iterator.next();  
+		            tsid =iterator.next();
+		            System.out.println("client operate tsid:" + tsid);
 		            if(tsid.equals(sid)) {
 		            	continue;
 		            }
-		            String strOperate =  Redis.getInstance().rpop(Operate.OPERATE_PRE_KEY + tsid);
+		            strOperate =  Redis.getInstance().rpop(Operate.OPERATE_PRE_KEY + tsid);
+		            System.out.println("client operate strOperate:" + strOperate);
 		            if(strOperate == null) {
 		            	continue;
 		            }
-		            System.out.println("strOperate:" + strOperate);
 		            response.responseOk(new JSONObject(strOperate).put("operateId", tsid), request);
 		 }
 	}

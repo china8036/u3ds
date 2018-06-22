@@ -26,6 +26,7 @@ public class Operate extends Controller {
 			operate.put("x", request.get("x"));
 			operate.put("y",  request.get("y"));
 			operate.put("z",  request.get("z"));
+			System.out.println("before store:" + operate.toString());
 			Redis.getInstance().lpush(OPERATE_PRE_KEY + sid,  operate.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
