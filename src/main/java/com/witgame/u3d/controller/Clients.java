@@ -26,9 +26,6 @@ public class Clients extends Controller  {
 		Iterator<String> iterator = clientsObject.keys();  
 		 while(iterator.hasNext()){  
 		            String tsid =iterator.next();  
-		            if(tsid.equals(sid)) {
-		            	continue;
-		            }
 		            JSONObject position = clientsObject.getJSONObject(tsid);
 		            response.responseOk(position.put("id", tsid), request);
 		 }

@@ -23,7 +23,7 @@ public class TaskThread implements Runnable {
 		while (true) {
 			try {
 				String msg = st.getMsg();
-				System.out.println("recv:" + msg);
+				//System.out.println("recv:" + msg);
 				if(msg.equals(Protocol.EXIT_CODE)) {//收到退出信息
 					return;
 				}

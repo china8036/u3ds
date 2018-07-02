@@ -27,7 +27,7 @@ public class Response {
 	 * @param request
 	 */
 	public void responseOk(JSONObject jo, Request request) {
-		System.out.println("Response:" + jo.toString());
+		//System.out.println("Response:" + jo.toString());
 		this.sendJson(ResponseCode.EVERY_OK,  "",  jo, request);
 	}
 	
