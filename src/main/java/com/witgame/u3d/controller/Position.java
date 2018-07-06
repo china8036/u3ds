@@ -33,6 +33,10 @@ public class Position extends Controller {
 			}
 			//Players.players.get(positoinId).position.x = (Float)request.get("x");
 			JSONObject positon = new JSONObject().put("positionId", positoinId).put("x", request.get("x")).put("y", request.get("y")).put("z", request.get("z"));
+			positon.put("rx", request.get("rx"));
+			positon.put("ry", request.get("ry"));
+			positon.put("rz", request.get("rz"));
+			positon.put("rw", request.get("rw"));
 			PushMsg.addMsgToAll(positon);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
