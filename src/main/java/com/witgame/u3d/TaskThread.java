@@ -9,6 +9,10 @@ public class TaskThread implements Runnable {
 	Route   route;
 	
 	Response response;
+	
+	String sid;
+	
+	boolean pushThreadStart = false;
 
 	TaskThread(SocketThread st) {
 		this.st = st;
@@ -27,6 +31,10 @@ public class TaskThread implements Runnable {
 				if(msg.equals(Protocol.EXIT_CODE)) {//收到退出信息
 					return;
 				}
+				if(!pushThreadStart) {
+					pushThreadStart = true;
+					initPushThread(new Request(msg, this.st).getSid()); 
+				}
 				this.route.run(new Request(msg, this.st));
 			}catch(ResponseException e) {
 				this.response.responseErr(e.getCode(),  e.getMessage(), null);
@@ -37,6 +45,15 @@ public class TaskThread implements Runnable {
 			 
 		}
 
+	}
+	
+	
+	/**
+	 *  启动pushThread
+	 * @param sid
+	 */
+	private void initPushThread(String sid) {
+		new Thread(new PushThread(sid, this.response)).start();
 	}
 
 

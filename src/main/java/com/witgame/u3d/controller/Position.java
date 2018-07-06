@@ -9,6 +9,9 @@ import com.witgame.u3d.Redis;
 import com.witgame.u3d.Request;
 import com.witgame.u3d.Response;
 import com.witgame.u3d.Session;
+import com.witgame.u3d.Vector3;
+import com.witgame.u3d.model.Players;
+import com.witgame.u3d.model.PushMsg;
 
 public class Position extends Controller {
 
@@ -19,24 +22,18 @@ public class Position extends Controller {
 	public void run(Request request, Response response, Session session) {
 		
 		try {
-			String sid = request.getSid();
-			JSONObject position = new JSONObject();
-			position.put("x", request.get("x"));
-			position.put("y",  request.get("y"));
-			position.put("z",  request.get("z"));
-			System.out.println("recv position:"  + position.toString());
-			String clients = Redis.getInstance().get(CLIENT_EKY);
-			JSONObject  clientsObject;
-			if(clients == null || !clients.startsWith("{")) {
-				clientsObject= new JSONObject();
-			}else {
-				System.out.println("clients:" + clients);
-				clientsObject= new JSONObject(clients);
+			String positoinId = (String)request.get("positionId");
+			if(positoinId.equals("")) {
+				System.out.println("not rec positionId" );
+				return ;
 			}
-			
-			clientsObject.put(sid, position);
-			System.out.println("clientsObject:"  + clientsObject.toString());
-			Redis.getInstance().set(CLIENT_EKY,  clientsObject.toString());
+			if(!Players.players.containsKey(positoinId)) {
+				System.out.println("not found this positionId:"  + positoinId );
+				return ;
+			}
+			//Players.players.get(positoinId).position.x = (Float)request.get("x");
+			JSONObject positon = new JSONObject().put("positionId", positoinId).put("x", request.get("x")).put("y", request.get("y")).put("z", request.get("z"));
+			PushMsg.addMsgToAll(positon);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
